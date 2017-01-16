@@ -101,7 +101,7 @@ public class SmsReceiveJob extends ContextJob {
 
   private Optional<IncomingTextMessage> assembleMessageFragments(Object[] pdus, int subscriptionId) {
     List<IncomingTextMessage> messages = new LinkedList<>();
-
+    Log.d(TAG, "Paul: received something like a message?!");
     for (Object pdu : pdus) {
       messages.add(new IncomingTextMessage(SmsMessage.createFromPdu((byte[])pdu), subscriptionId));
     }

@@ -1,5 +1,10 @@
 package org.thoughtcrime.securesms.jobs;
 
+/**
+ * Paul: TODO Wichtig
+ * Hier geht die einzel Nachricht schließlich durch und wird an die Signal Lib übergeben
+ */
+
 import android.content.Context;
 import android.util.Log;
 

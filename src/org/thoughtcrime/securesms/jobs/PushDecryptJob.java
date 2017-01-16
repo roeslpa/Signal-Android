@@ -1,5 +1,10 @@
 package org.thoughtcrime.securesms.jobs;
 
+/**
+ * Paul: TODO Gruppen Wichtig
+ * hier wird empfangen und dann an die Klasse GroupMessageProcessor weitergegeben
+ */
+
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -64,6 +69,8 @@ import org.whispersystems.signalservice.api.messages.multidevice.RequestMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.SentTranscriptMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.SignalServiceSyncMessage;
 import org.whispersystems.signalservice.api.push.SignalServiceAddress;
+import org.whispersystems.signalservice.internal.util.Hex;
+import org.whispersystems.signalservice.internal.util.JsonUtil;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -137,7 +144,37 @@ public class PushDecryptJob extends ContextJob {
       SignalServiceCipher  cipher       = new SignalServiceCipher(localAddress, axolotlStore);
 
       SignalServiceContent content = cipher.decrypt(envelope);
+      //byte[] rawContent = cipher.decrypt(envelope, envelope.getLegacyMessage());
+      SignalServiceGroup group;
+      SignalServiceGroup.Type gt;
+      String gid, gname, gm, gjson;
 
+      group = content.getDataMessage().orNull().getGroupInfo().orNull();
+      if(group != null) {
+        gt = group.getType();
+        gid = Hex.toString(group.getGroupId());
+        gname = group.getName().or("-none-");
+        gm = group.getMembers().toString();
+        gjson = JsonUtil.toJson(group);
+      } else {
+        gt = SignalServiceGroup.Type.UNKNOWN;
+        gid = "-";
+        gname = "-";
+        gm = "-";
+        gjson = "-";
+      }
+
+      Log.d(TAG, "Paul: encrypted "+envelope.getType()+" message from:"+envelope.getSourceAddress().getNumber()+
+              "\nat:"+envelope.getTimestamp()+
+              "\nwith raw content (syn+dat):"+ Hex.toString(envelope.getContent())+
+              "\nor raw message (dat):"+ Hex.toString(envelope.getLegacyMessage())+
+              "\ncontaining plain message:"+ content.getDataMessage().orNull().getBody()+
+              "\nfor group (type:"+gt+"):"+ gid+
+              " ("+gname+")"+
+              "\nwith members:"+gm);
+      Log.d(TAG, "Paul: plain part of encrypted message in"+
+              "\njson:"+ JsonUtil.toJson(content.getDataMessage().orNull())+
+              "\ngroup info:"+gjson);
       if (content.getDataMessage().isPresent()) {
         SignalServiceDataMessage message = content.getDataMessage().get();
 

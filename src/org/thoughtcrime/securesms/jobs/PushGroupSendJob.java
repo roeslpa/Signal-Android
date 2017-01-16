@@ -1,5 +1,10 @@
 package org.thoughtcrime.securesms.jobs;
 
+/**
+ * Paul: TODO Gruppen Wichtig
+ * Hier werden Gruppen Nachrichten an die Signal Lib übergeben
+ */
+
 import android.content.Context;
 import android.util.Log;
 

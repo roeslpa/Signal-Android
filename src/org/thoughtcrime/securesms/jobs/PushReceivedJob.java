@@ -1,5 +1,10 @@
 package org.thoughtcrime.securesms.jobs;
 
+/**
+ * TODO: Paul Wichtig!
+ * Hier werden Nachrichten an Push Decrypt Job weitergeleitet
+ */
+
 import android.content.Context;
 import android.util.Log;
 
@@ -25,6 +30,12 @@ public abstract class PushReceivedJob extends ContextJob {
     super(context, parameters);
   }
 
+  /**
+   * TODO: Paul Wichtig!
+   * Hier werden alle Nachrichten (egal ob text of ack) verarbeitet
+   * @param envelope
+   * @param sendExplicitReceipt
+     */
   public void handle(SignalServiceEnvelope envelope, boolean sendExplicitReceipt) {
     if (!isActiveNumber(context, envelope.getSource())) {
       TextSecureDirectory directory           = TextSecureDirectory.getInstance(context);
@@ -46,6 +57,12 @@ public abstract class PushReceivedJob extends ContextJob {
     }
   }
 
+  /**
+   * TODO: Paul Wichtig!
+   * Hier werden Nachrichten an Push Decrypt Job weiter gegeben
+   * @param envelope
+   * @param sendExplicitReceipt
+     */
   private void handleMessage(SignalServiceEnvelope envelope, boolean sendExplicitReceipt) {
     Recipients recipients = RecipientFactory.getRecipientsFromString(context, envelope.getSource(), false);
     JobManager jobManager = ApplicationContext.getInstance(context).getJobManager();
