@@ -1,5 +1,9 @@
 package org.thoughtcrime.securesms;
 
+/**
+ * Paul: Not important
+ */
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;

@@ -17,6 +17,10 @@
 
 package org.thoughtcrime.securesms;
 
+/**
+ * Paul: TODO Gruppen Wichtig
+ */
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;

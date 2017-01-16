@@ -1,5 +1,10 @@
 package org.thoughtcrime.securesms.service;
 
+/**
+ * TODO: Paul Wichtig
+ * Hier werden die Nachrichten beim reinkommen als erstes bearbeitet
+ */
+
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +23,7 @@ import org.whispersystems.libsignal.InvalidVersionException;
 import org.whispersystems.signalservice.api.SignalServiceMessagePipe;
 import org.whispersystems.signalservice.api.SignalServiceMessageReceiver;
 import org.whispersystems.signalservice.api.messages.SignalServiceEnvelope;
+import org.whispersystems.signalservice.internal.util.Hex;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -84,7 +90,12 @@ public class MessageRetrievalService extends Service implements Runnable, Inject
                         @Override
                         public void onMessage(SignalServiceEnvelope envelope) {
                           Log.w(TAG, "Retrieved envelope! " + envelope.getSource());
-
+                          Log.d(TAG, "Paul: encrypted "+envelope.getType()+" message from:"+envelope.getSourceAddress().getNumber()+
+                                  "(device "+envelope.getSourceDevice()+")"+
+                                  "\nat:"+envelope.getTimestamp()+
+                                  "\nwith raw content (syn+dat):"+ Hex.toString(envelope.getContent())+
+                                  "\nor raw message (dat):"+ Hex.toString(envelope.getLegacyMessage())+
+                                  "\nwith relay:"+envelope.getRelay());
                           PushContentReceiveJob receiveJob = new PushContentReceiveJob(MessageRetrievalService.this);
                           receiveJob.handle(envelope, false);
 

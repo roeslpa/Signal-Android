@@ -1,5 +1,8 @@
 package org.thoughtcrime.securesms.groups;
 
+/**
+ * Paul: TODO Gruppen Wichtig
+ */
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -51,6 +54,7 @@ public class GroupMessageProcessor {
                                        @NonNull SignalServiceDataMessage message,
                                        boolean outgoing)
   {
+    Log.d(TAG, "Paul: received group message");
     if (!message.getGroupInfo().isPresent() || message.getGroupInfo().get().getGroupId() == null) {
       Log.w(TAG, "Received group message with no id! Ignoring...");
       return null;
